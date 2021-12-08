@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RandomDog</string>
+    <string name="refresh_dog_button_text">get a new dog and fact!</string>
+</resources>
