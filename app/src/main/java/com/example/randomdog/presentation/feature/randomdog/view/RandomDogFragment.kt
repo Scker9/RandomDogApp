@@ -18,10 +18,8 @@ class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogVie
     private var picasso: Picasso? = null
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> RandomDogFragmentBinding =
         RandomDogFragmentBinding::inflate
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.updateRandomDog()
         binding.refreshRandomDog.setOnClickListener {
             presenter.updateRandomDog()
             Toast.makeText(requireContext(), "Getting a new gog, pls wait...", Toast.LENGTH_SHORT)

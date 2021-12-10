@@ -15,16 +15,22 @@ import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
+import moxy.MvpAppCompatActivity
+import moxy.presenter.InjectPresenter
 import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : MvpAppCompatActivity(),MainView {
     private val navigatorHolder by inject<NavigatorHolder>()
     private val router by inject<Router>()
+    @InjectPresenter
+    lateinit var presenter: MainPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun moveToRandomDogFragment() {
         val navigator = AppNavigator(this, R.id.main_container)
         navigatorHolder.setNavigator(navigator)
-        router.navigateTo(Screens.FRAGMENT_RANDOM_DOG)
-    }
+        router.navigateTo(Screens.FRAGMENT_RANDOM_DOG)    }
 }

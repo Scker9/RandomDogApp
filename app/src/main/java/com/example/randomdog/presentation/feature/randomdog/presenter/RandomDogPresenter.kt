@@ -7,6 +7,10 @@ import com.example.randomdog.presentation.interactors.RandomDogInterractor
 import org.koin.core.component.inject
 
 class RandomDogPresenter : BasePresenter<RandomDogView>() {
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        updateRandomDog()
+    }
     private val randomDogInterractor by inject<RandomDogInterractor>()
     fun updateRandomDog() {
         randomDogInterractor.getRandomDog()
