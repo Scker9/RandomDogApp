@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.randomdog.R
@@ -25,6 +26,14 @@ class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogVie
     private var recycler:RecyclerView?=null
     private val adapter by lazy { RandomDogAdapter()  }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(),
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                }
+            })
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recycler= view.findViewById(R.id.randomDogRecycler)
