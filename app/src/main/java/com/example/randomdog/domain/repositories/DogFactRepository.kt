@@ -5,4 +5,5 @@ import io.reactivex.Single
 
 interface DogFactRepository {
     fun getDogFact(): Single<DogFactModel>
+    fun getDogFacts(numberOfFacts:Int):Single<List<String>>
 }

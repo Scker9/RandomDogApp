@@ -1,5 +1,6 @@
-package com.example.randomdog.presentation.interactors
+package com.example.randomdog.domain.interactors
 
+import android.annotation.SuppressLint
 import com.example.randomdog.data.response.DogFactModel
 import com.example.randomdog.data.response.DogImageModel
 import com.example.randomdog.domain.entities.RandomDog
@@ -13,7 +14,7 @@ import org.koin.core.component.inject
 class RandomDogInterractor : KoinComponent {
     private val dogImageRepo by inject<DogImageRepository>()
     private val dogFactRepo by inject<DogFactRepository>()
-    fun getRandomDog(): Single<RandomDog> {
+    fun getOneRandomDog(): Single<RandomDog> {
         return Single.zip(
             dogFactRepo.getDogFact(),
             dogImageRepo.getDogImage(),
@@ -23,4 +24,21 @@ class RandomDogInterractor : KoinComponent {
                 }
             })
     }
+//    @SuppressLint("CheckResult")
+//    fun getRandomDogs(randomDogCount:Int):Single<List<RandomDog>>
+//    {
+//        val arrayListOfUrls= arrayListOf<RandomDog>()
+//        for(i in 0 until randomDogCount)
+//        {
+//            dogImageRepo.getDogImage().map {
+//                arrayListOfUrls.add(it.message)
+//            }
+//        }
+//        dogFactRepo.getDogFacts(randomDogCount)
+//            .map {
+//                it.forEach {
+//
+//                }
+//            }
+//    }
 }

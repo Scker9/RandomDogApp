@@ -1,13 +1,18 @@
 package com.example.randomdog.presentation.feature.randomdog.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.randomdog.R
 import com.example.randomdog.databinding.RandomDogFragmentBinding
 import com.example.randomdog.domain.entities.RandomDog
 import com.example.randomdog.presentation.base.BaseFragment
+import com.example.randomdog.presentation.feature.randomdog.RandomDogAdapter
 import com.example.randomdog.presentation.feature.randomdog.presenter.RandomDogPresenter
 import com.squareup.picasso.Picasso
 import moxy.presenter.InjectPresenter
@@ -15,26 +20,38 @@ import moxy.presenter.InjectPresenter
 class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogView {
     @InjectPresenter
     lateinit var presenter: RandomDogPresenter
-    private var picasso: Picasso? = null
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> RandomDogFragmentBinding =
         RandomDogFragmentBinding::inflate
+    private var recycler:RecyclerView?=null
+    private val adapter by lazy { RandomDogAdapter()  }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.refreshRandomDog.setOnClickListener {
-            presenter.updateRandomDog()
-            Toast.makeText(requireContext(), "Getting a new gog, pls wait...", Toast.LENGTH_SHORT)
-                .show()
-        }
+        recycler= view.findViewById(R.id.randomDogRecycler)
+        recycler?.adapter=adapter
+        recycler?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    if (isLastVisable()) {
+                        presenter.getFacts(10)
+                    }
+                }
+            }
+        })
     }
-
-    override fun showRandomDog(randomDog: RandomDog) {
-        binding.dogFactTextView.text = randomDog.fact
-        picasso = Picasso.with(requireContext())
-        picasso?.load(randomDog.image)?.into(binding.randomDogImageView)
-    }
-
     companion object {
         fun newInstance(): RandomDogFragment = RandomDogFragment()
     }
 
+    override fun updateListOfFacts(list: List<String>) {
+        adapter.setItems(list)
+    }
+
+    private fun isLastVisable(): Boolean {
+        val layoutManager = recycler?.layoutManager as LinearLayoutManager
+        val pos = layoutManager.findLastCompletelyVisibleItemPosition()
+        val numItems = adapter.itemCount
+        return (pos >= numItems - 1)
+    }
 }

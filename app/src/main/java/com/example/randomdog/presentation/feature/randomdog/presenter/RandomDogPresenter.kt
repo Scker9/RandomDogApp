@@ -1,27 +1,29 @@
 package com.example.randomdog.presentation.feature.randomdog.presenter
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.example.randomdog.presentation.base.BasePresenter
 import com.example.randomdog.presentation.feature.randomdog.view.RandomDogView
-import com.example.randomdog.presentation.interactors.RandomDogInterractor
+import com.example.randomdog.domain.interactors.RandomDogInterractor
+import com.example.randomdog.domain.interactors.RandomDogOnlyFactInterractor
 import org.koin.core.component.inject
 
 class RandomDogPresenter : BasePresenter<RandomDogView>() {
+    private val randomFactInterractor by inject<RandomDogOnlyFactInterractor>()
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        updateRandomDog()
+        getFacts(10)
     }
-    private val randomDogInterractor by inject<RandomDogInterractor>()
-    fun updateRandomDog() {
-        randomDogInterractor.getRandomDog()
-            .subscribe(
-                {
-                    viewState.showRandomDog(it)
-                },
-                {
-                    Log.d("rand_dog_err", it.localizedMessage)
-                }
-            )
-            .addToCompositeDisposable()
+    @SuppressLint("CheckResult")
+    fun getFacts(factsCount:Int)
+    {
+        randomFactInterractor.getRandomDogFacts(factsCount).subscribe(
+            {
+                viewState.updateListOfFacts(it)
+            },
+            {
+
+            }
+        )
     }
 }

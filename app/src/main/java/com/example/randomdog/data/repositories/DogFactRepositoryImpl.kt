@@ -2,6 +2,7 @@ package com.example.randomdog.data.repositories
 
 import com.example.randomdog.data.response.DogFactModel
 import com.example.randomdog.data.response.source.DogFactApi
+import com.example.randomdog.domain.mappers.DogFactModelToString
 import com.example.randomdog.domain.repositories.DogFactRepository
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,6 +16,14 @@ class DogFactRepositoryImpl : DogFactRepository, KoinComponent {
         return dogFactApi.getOneDogFact().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).map {
                 return@map it[0]
+            }
+    }
+
+    override fun getDogFacts(numberOfFacts: Int): Single<List<String>> {
+        return dogFactApi.getDogFacts(numberOfFacts).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                DogFactModelToString().convert(it)
             }
     }
 }
