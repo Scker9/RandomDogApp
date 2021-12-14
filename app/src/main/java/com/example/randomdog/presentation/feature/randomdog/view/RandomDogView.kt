@@ -7,5 +7,7 @@ import moxy.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface RandomDogView : BaseView {
-    fun updateListOfFacts(list:List<String>)
+    fun updateListOfFactsAndMarkLoadingEnded(list:List<String>)
+    fun showLoading()
+    fun loadindEnded()
 }

@@ -1,12 +1,14 @@
-package com.example.randomdog.presentation.feature.randomdog
+package com.example.randomdog.presentation.feature.randomdog.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.drawToBitmap
 import androidx.recyclerview.widget.RecyclerView
 import com.example.randomdog.R
 import com.example.randomdog.domain.entities.RandomDog
@@ -19,8 +21,9 @@ class RandomDogAdapter : RecyclerView.Adapter<RandomDogAdapter.RandomDogViewHold
     KoinComponent {
     private val randomDogInterractor by inject<RandomDogOnlyPhotoInterractor>()
     private var items: ArrayList<RandomDog> = ArrayList()
+    var navigationCallBack: (() -> Unit)? = null
 
-    class RandomDogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class RandomDogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val factTextView: TextView = itemView.findViewById(R.id.randomDogFactItemTextView)
         private val imageDog: ImageView = itemView.findViewById(R.id.randomDogItemImageView)
         private val picasso: Picasso = Picasso.with(itemView.context)
@@ -34,6 +37,9 @@ class RandomDogAdapter : RecyclerView.Adapter<RandomDogAdapter.RandomDogViewHold
         val itemView =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.random_dog_recycler_item, parent, false)
+        itemView.findViewById<ImageView>(R.id.randomDogItemImageView).setOnClickListener {
+            navigationCallBack?.invoke()
+        }
         val viewHolder = RandomDogViewHolder(itemView)
         return viewHolder
     }
@@ -53,9 +59,10 @@ class RandomDogAdapter : RecyclerView.Adapter<RandomDogAdapter.RandomDogViewHold
                     notifyDataSetChanged()
                 },
                 {
-                    Log.d("errors",it.localizedMessage)
+                    Log.d("errors", it.localizedMessage)
                 }
             )
         }
     }
+
 }
