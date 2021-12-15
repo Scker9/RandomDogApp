@@ -1,5 +1,6 @@
 package com.example.randomdog.presentation.feature.randomdog.view
 
+import android.graphics.Bitmap
 import com.example.randomdog.domain.entities.RandomDog
 import com.example.randomdog.domain.entities.RandomDogBitmap
 import com.example.randomdog.presentation.base.BaseView

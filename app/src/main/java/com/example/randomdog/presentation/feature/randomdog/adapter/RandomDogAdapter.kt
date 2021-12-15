@@ -12,8 +12,8 @@ import org.koin.core.component.KoinComponent
 
 class RandomDogAdapter : RecyclerView.Adapter<RandomDogAdapter.RandomDogViewHolder>(),
     KoinComponent {
-    private var items: ArrayList<RandomDogBitmap> = ArrayList()
-    var onPictureClicked: (() -> Unit)? = null
+    var dataitems: ArrayList<RandomDogBitmap> = ArrayList()
+    var onPictureClicked: ((Int) -> Unit)? = null
 
     inner class RandomDogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val factTextView: TextView = itemView.findViewById(R.id.randomDogFactItemTextView)
@@ -21,6 +21,9 @@ class RandomDogAdapter : RecyclerView.Adapter<RandomDogAdapter.RandomDogViewHold
         fun bind(randomDog: RandomDogBitmap) {
             factTextView.text = randomDog.fact
             imageDog.setImageBitmap(randomDog.bitmap)
+            imageDog.setOnClickListener {
+                onPictureClicked?.invoke(adapterPosition)
+            }
         }
     }
 
@@ -28,20 +31,17 @@ class RandomDogAdapter : RecyclerView.Adapter<RandomDogAdapter.RandomDogViewHold
         val itemView =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.random_dog_recycler_item, parent, false)
-        itemView.findViewById<ImageView>(R.id.randomDogItemImageView).setOnClickListener {
-            onPictureClicked?.invoke()
-        }
         return RandomDogViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: RandomDogViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(dataitems[position])
     }
 
-    override fun getItemCount(): Int = items.count()
+    override fun getItemCount(): Int = dataitems.count()
 
-    fun setItems(newItems: List<RandomDogBitmap>) {
-        items.addAll(newItems)
+    fun setItems(newItems: ArrayList<RandomDogBitmap>) {
+        dataitems = newItems
         notifyDataSetChanged()
     }
 

@@ -16,15 +16,11 @@ class RandomDogImageViewAdapter :
     class DogImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val pictureOfDog = itemView.findViewById<ImageView>(R.id.big_dog_image)
         fun bind(bitMap: Bitmap) {
-            Log.d("dsadsa", "bind")
-
             pictureOfDog.setImageBitmap(bitMap)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogImageViewHolder {
-        Log.d("dsadsa", "create")
-
         return DogImageViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.random_dog_image_viewer_item, parent, false)
@@ -32,15 +28,12 @@ class RandomDogImageViewAdapter :
     }
 
     override fun onBindViewHolder(holder: DogImageViewHolder, position: Int) {
-        Log.d("dsadsa", "onBind")
         holder.bind(items[position])
     }
 
     override fun getItemCount(): Int = items.count()
 
-    fun setData(newData: List<Bitmap>)
-    {
-        Log.d("dsadsa", "data")
-        items=newData
+    fun setData(newData: List<Bitmap>) {
+        items = newData
     }
 }

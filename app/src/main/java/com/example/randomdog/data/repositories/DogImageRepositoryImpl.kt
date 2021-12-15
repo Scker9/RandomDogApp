@@ -32,7 +32,7 @@ class DogImageRepositoryImpl : DogImageRepository, KoinComponent {
                 it.message
             }
             .flatMap {
-                getBitmap(it)
+                return@flatMap getBitmap(it)
             }
     }
 

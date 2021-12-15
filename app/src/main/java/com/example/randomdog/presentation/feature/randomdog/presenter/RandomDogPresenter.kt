@@ -1,7 +1,6 @@
 package com.example.randomdog.presentation.feature.randomdog.presenter
 
 import android.util.Log
-import com.example.randomdog.domain.entities.RandomDog
 import com.example.randomdog.domain.entities.RandomDogBitmap
 import com.example.randomdog.domain.interactors.RandomDogInterractor
 import com.example.randomdog.presentation.base.BasePresenter
@@ -13,7 +12,7 @@ class RandomDogPresenter : BasePresenter<RandomDogView>() {
     private val loadedDogs: ArrayList<RandomDogBitmap> = ArrayList()
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        getRandomDogs(2)
+        getRandomDogs(DOGS_COUNT_DEFAULT)
     }
 
     fun getRandomDogs(count: Int) {
@@ -35,5 +34,8 @@ class RandomDogPresenter : BasePresenter<RandomDogView>() {
             }
         ).addToCompositeDisposable()
     }
-
+    companion object
+    {
+        const val DOGS_COUNT_DEFAULT=10
+    }
 }

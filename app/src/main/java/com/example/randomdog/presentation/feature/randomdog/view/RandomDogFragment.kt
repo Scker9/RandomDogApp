@@ -46,22 +46,22 @@ class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogVie
         binding.randomDogRecycler.addItemDecoration(dividerItemDecoration)
         binding.randomDogRecycler.adapter = adapter
         adapter.onPictureClicked =
-            {
-                // moveToPictureViewer() //доделать исправить
+            { position ->
+                moveToPictureViewer(position)
             }
         binding.randomDogRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0 && isLastVisible()) {
                     binding.swipeToRefresh.isRefreshing = true
-                    presenter.getRandomDogs(3)
+                    presenter.getRandomDogs(RandomDogPresenter.DOGS_COUNT_DEFAULT)
                 }
             }
         })
     }
 
     override fun addNewRandomDogBitmap(list: List<RandomDogBitmap>) {
-        adapter.setItems(list)
+        adapter.setItems(list as ArrayList<RandomDogBitmap>)
     }
 
 
@@ -73,8 +73,13 @@ class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogVie
         binding.swipeToRefresh.isRefreshing = false
     }
 
-    private fun moveToPictureViewer() {
-        router.navigateTo(Screens.FRAGMENT_RANDOM_DOG_IMAGE_VIEWER)
+    private fun moveToPictureViewer(position: Int) {
+        router.navigateTo(
+            Screens.FRAGMENT_RANDOM_DOG_IMAGE_VIEWER(
+                adapter.dataitems.map { it.bitmap },
+                position
+            )
+        )
     }
 
     private fun isLastVisible(): Boolean {
