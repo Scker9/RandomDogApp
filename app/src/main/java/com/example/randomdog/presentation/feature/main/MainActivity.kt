@@ -26,10 +26,10 @@ import org.koin.android.ext.android.inject
 class MainActivity : MvpAppCompatActivity(), MainView {
     private val navigatorHolder by inject<NavigatorHolder>()
     private val router by inject<Router>()
-
     @InjectPresenter
     lateinit var presenter: MainPresenter
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

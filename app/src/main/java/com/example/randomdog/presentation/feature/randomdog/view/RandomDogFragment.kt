@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.postDelayed
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.randomdog.R
 import com.example.randomdog.Screens
 import com.example.randomdog.databinding.RandomDogFragmentBinding
+import com.example.randomdog.domain.entities.RandomDog
+import com.example.randomdog.domain.entities.RandomDogBitmap
 import com.example.randomdog.presentation.base.BaseFragment
 import com.example.randomdog.presentation.feature.randomdog.adapter.RandomDogAdapter
 import com.example.randomdog.presentation.feature.randomdog.presenter.RandomDogPresenter
@@ -37,34 +40,37 @@ class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogVie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.swipeToRefresh.isEnabled=false
+        binding.swipeToRefresh.isEnabled = false
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
+        dividerItemDecoration.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
+        binding.randomDogRecycler.addItemDecoration(dividerItemDecoration)
         binding.randomDogRecycler.adapter = adapter
+        adapter.onPictureClicked =
+            {
+                // moveToPictureViewer() //доделать исправить
+            }
         binding.randomDogRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0 && isLastVisible()) {
-                    binding.swipeToRefresh.isRefreshing=true
-                    presenter.getFacts(10)
+                    binding.swipeToRefresh.isRefreshing = true
+                    presenter.getRandomDogs(3)
                 }
             }
         })
-        adapter.navigationCallBack =
-            {
-               // moveToPictureViewer() //доделать исправить
-            }
     }
 
-    override fun updateListOfFactsAndMarkLoadingEnded(list: List<String>) {
+    override fun addNewRandomDogBitmap(list: List<RandomDogBitmap>) {
         adapter.setItems(list)
-        loadindEnded()
     }
+
 
     override fun showLoading() {
-        binding.swipeToRefresh.isRefreshing=true
+        binding.swipeToRefresh.isRefreshing = true
     }
 
-    override fun loadindEnded() {
-        binding.swipeToRefresh.isRefreshing=false
+    override fun loadingEnded() {
+        binding.swipeToRefresh.isRefreshing = false
     }
 
     private fun moveToPictureViewer() {

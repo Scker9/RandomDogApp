@@ -3,6 +3,7 @@ package com.example.randomdog.data.repositories
 import com.example.randomdog.data.response.DogFactModel
 import com.example.randomdog.data.response.source.DogFactApi
 import com.example.randomdog.domain.repositories.DogFactRepository
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -18,11 +19,14 @@ class DogFactRepositoryImpl : DogFactRepository, KoinComponent {
             }
     }
 
-    override fun getDogFacts(numberOfFacts: Int): Single<List<String>> {
+    override fun getDogFacts(numberOfFacts: Int): Observable<String> {
         return dogFactApi.getDogFacts(numberOfFacts).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { it ->
-                it.map { it.fact }
+            .flatMapObservable {
+                Observable.fromIterable(it)
+            }
+            .map {
+                it.fact
             }
     }
 }

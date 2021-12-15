@@ -7,10 +7,9 @@ import com.example.randomdog.data.response.source.DogImageApi
 import com.example.randomdog.domain.repositories.DogFactRepository
 import com.example.randomdog.domain.repositories.DogImageRepository
 import com.example.randomdog.domain.interactors.RandomDogInterractor
-import com.example.randomdog.domain.interactors.RandomDogOnlyFactInterractor
-import com.example.randomdog.domain.interactors.RandomDogOnlyPhotoInterractor
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -61,8 +60,9 @@ object Modules {
     }
     val interactors = module {
         factory { RandomDogInterractor() }
-        factory { RandomDogOnlyPhotoInterractor() }
-        factory { RandomDogOnlyFactInterractor() }
+    }
+    val picasso = module {
+        single { Picasso.with(get()) }
     }
     private const val dogImageBaseURL = "https://dog.ceo/api/breeds/image/"
     private const val dogFactBaseURL = "https://dog-facts-api.herokuapp.com/api/v1/resources/"

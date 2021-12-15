@@ -3,6 +3,7 @@ package com.example.randomdog
 import android.app.Application
 import com.example.randomdog.di.Modules.interactors
 import com.example.randomdog.di.Modules.network
+import com.example.randomdog.di.Modules.picasso
 import com.example.randomdog.di.Modules.presenters
 import com.example.randomdog.di.Modules.repos
 import com.example.randomdog.di.Modules.router
@@ -14,7 +15,7 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(applicationContext)
-            modules(listOf(network, repos, presenters, router, interactors))
+            modules(listOf(network, repos, presenters, router, interactors,picasso))
         }
     }
 }

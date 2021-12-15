@@ -1,6 +1,6 @@
 package com.example.randomdog.data.response
 
 data class DogImageModel(
-    val message: String,
+    val message: List<String>,
     val status: String
 )
