@@ -1,6 +1,9 @@
 package com.example.randomdog.presentation.feature.randomdog.view
 
+import com.example.randomdog.presentation.feature.randomdogpictureviewer.adapter.swipe.OnSwipeTouchListener
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.randomdog.R
 import com.example.randomdog.Screens
 import com.example.randomdog.databinding.RandomDogFragmentBinding
-import com.example.randomdog.domain.entities.RandomDog
 import com.example.randomdog.domain.entities.RandomDogBitmap
 import com.example.randomdog.presentation.base.BaseFragment
 import com.example.randomdog.presentation.feature.randomdog.adapter.RandomDogAdapter
@@ -27,7 +29,7 @@ class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogVie
         RandomDogFragmentBinding::inflate
     private val adapter by lazy { RandomDogAdapter() }
     private val router by inject<Router>()
-
+    private val TAG = this::class.java.simpleName
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(this,
@@ -38,11 +40,30 @@ class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogVie
             })
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.swipeToRefresh.isEnabled = false
         val dividerItemDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
         dividerItemDecoration.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
+        binding.swipeToRefresh.setOnTouchListener(object :
+            OnSwipeTouchListener(requireContext()) {
+            override fun onSwipeTop() {
+                Log.d(TAG, "TOP TOP ")
+            }
+
+            override fun onSwipeBottom() {
+                Log.d(TAG, "BOT BOT")
+            }
+
+            override fun onSwipeLeft() {
+                Log.d(TAG, "TOP TOP ")
+            }
+
+            override fun onSwipeRight() {
+                Log.d(TAG, "TOP TOP ")
+            }
+        })
         binding.randomDogRecycler.addItemDecoration(dividerItemDecoration)
         binding.randomDogRecycler.adapter = adapter
         adapter.onPictureClicked =

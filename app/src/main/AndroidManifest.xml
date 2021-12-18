@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RandomDog">
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.feature.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
