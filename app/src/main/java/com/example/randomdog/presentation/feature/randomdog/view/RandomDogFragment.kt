@@ -46,24 +46,6 @@ class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogVie
         binding.swipeToRefresh.isEnabled = false
         val dividerItemDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
         dividerItemDecoration.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
-        binding.swipeToRefresh.setOnTouchListener(object :
-            OnSwipeTouchListener(requireContext()) {
-            override fun onSwipeTop() {
-                Log.d(TAG, "TOP TOP ")
-            }
-
-            override fun onSwipeBottom() {
-                Log.d(TAG, "BOT BOT")
-            }
-
-            override fun onSwipeLeft() {
-                Log.d(TAG, "TOP TOP ")
-            }
-
-            override fun onSwipeRight() {
-                Log.d(TAG, "TOP TOP ")
-            }
-        })
         binding.randomDogRecycler.addItemDecoration(dividerItemDecoration)
         binding.randomDogRecycler.adapter = adapter
         adapter.onPictureClicked =

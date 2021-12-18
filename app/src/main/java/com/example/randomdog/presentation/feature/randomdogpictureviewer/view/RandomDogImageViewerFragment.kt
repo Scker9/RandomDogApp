@@ -1,5 +1,6 @@
 package com.example.randomdog.presentation.feature.randomdogpictureviewer.view
 
+import ZoomOutPageTransformer
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -37,10 +38,10 @@ class RandomDogImageViewerFragment : BaseFragment<RandomDogImageViewerBinding>()
         super.onCreate(savedInstanceState)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewPager = view.findViewById(R.id.imageDogViewPager)
+        viewPager?.setPageTransformer(ZoomOutPageTransformer())
         viewPager?.adapter = adapter
         adapter.setData(bitmaps)
         viewPager?.setCurrentItem(startScrollPosition, false)
