@@ -27,10 +27,10 @@ class RandomDogImageViewerFragment : BaseFragment<RandomDogImageViewerBinding>()
     private val router by inject<Router>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(),
+        requireActivity().onBackPressedDispatcher.addCallback(this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    router.navigateTo(Screens.FRAGMENT_RANDOM_DOG)
+                    router.exit()
                 }
             })
         super.onCreate(savedInstanceState)

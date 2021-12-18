@@ -30,7 +30,7 @@ class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(),
+        requireActivity().onBackPressedDispatcher.addCallback(this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     //doing nothing

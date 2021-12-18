@@ -22,7 +22,7 @@ class RandomDogInterractor : KoinComponent {
     private val dogImageRepo by inject<DogImageRepository>()
     private val dogFactRepo by inject<DogFactRepository>()
     fun getRandomDogs(dogsCount: Int): Observable<RandomDogBitmap> {
-        return Observable.combineLatest(
+        return Observable.zip(
             dogFactRepo.getDogFacts(dogsCount),
             dogImageRepo.getDogImages(dogsCount),
             object : BiFunction<String, Bitmap, RandomDogBitmap> {
