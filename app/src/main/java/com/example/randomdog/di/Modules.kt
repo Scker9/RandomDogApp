@@ -59,7 +59,7 @@ object Modules {
         factory<DogImageRepository> { DogImageRepositoryImpl() }
     }
     val interactors = module {
-        factory { RandomDogInterractor() }
+        single { RandomDogInterractor() }
     }
     val picasso = module {
         single { Picasso.with(get()) }

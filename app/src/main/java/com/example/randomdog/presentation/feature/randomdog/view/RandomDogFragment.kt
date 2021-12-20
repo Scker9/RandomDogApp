@@ -79,7 +79,6 @@ class RandomDogFragment : BaseFragment<RandomDogFragmentBinding>(), RandomDogVie
     private fun moveToPictureViewer(position: Int) {
         router.navigateTo(
             Screens.FRAGMENT_RANDOM_DOG_IMAGE_VIEWER(
-                adapter.dataitems.map { it.bitmap },
                 position
             )
         )

@@ -15,7 +15,7 @@ class RandomDogImageViewAdapter :
     RecyclerView.Adapter<RandomDogImageViewAdapter.DogImageViewHolder>() {
     private val TAG = this::class.java.simpleName
     var onSwipeItemBottomAndTop: (() -> Unit)? = null
-    private var items: List<Bitmap> = arrayListOf()
+    private var items: ArrayList<Bitmap> = arrayListOf()
 
     inner class DogImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val pictureOfDog = itemView.findViewById<ImageView>(R.id.big_dog_image)
@@ -51,6 +51,12 @@ class RandomDogImageViewAdapter :
     override fun getItemCount(): Int = items.count()
 
     fun setData(newData: List<Bitmap>) {
-        items = newData
+        items = newData as ArrayList<Bitmap>
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(newData: Bitmap) {
+        items.add(newData)
+        notifyDataSetChanged()
     }
 }

@@ -19,8 +19,10 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class RandomDogInterractor : KoinComponent {
+    private val TAG = this::class.java.simpleName
     private val dogImageRepo by inject<DogImageRepository>()
     private val dogFactRepo by inject<DogFactRepository>()
+    private val loadedDogsImages: ArrayList<Bitmap> = arrayListOf()
     fun getRandomDogs(dogsCount: Int): Observable<RandomDogBitmap> {
         return Observable.zip(
             dogFactRepo.getDogFacts(dogsCount),
@@ -30,9 +32,15 @@ class RandomDogInterractor : KoinComponent {
                     return RandomDogBitmap(t1, t2)
                 }
             }
-        )
+        ).doOnNext {
+            loadedDogsImages.add(it.bitmap)
+            Log.d(TAG, loadedDogsImages.toString())
+        }
     }
 
+    fun getAlreadyLoadedImages(): Observable<ArrayList<Bitmap>> {
+        return Observable.just(loadedDogsImages)
+    }
 }
 
 

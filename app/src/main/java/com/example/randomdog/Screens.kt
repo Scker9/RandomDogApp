@@ -8,6 +8,6 @@ import java.text.FieldPosition
 
 object Screens {
     val FRAGMENT_RANDOM_DOG = FragmentScreen { RandomDogFragment.newInstance() }
-    fun FRAGMENT_RANDOM_DOG_IMAGE_VIEWER(list: List<Bitmap>, position: Int) =
-        FragmentScreen { RandomDogImageViewerFragment.newInstance(list, position) }
+    fun FRAGMENT_RANDOM_DOG_IMAGE_VIEWER(position: Int) =
+        FragmentScreen { RandomDogImageViewerFragment.newInstance(position) }
 }
